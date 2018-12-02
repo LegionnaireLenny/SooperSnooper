@@ -209,6 +209,7 @@
     <Compile Include="Models\ASP\IdentityModels.cs" />
     <Compile Include="Models\ASP\ManageViewModels.cs" />
     <Compile Include="Models\Twitter\Scraper.cs" />
+    <Compile Include="Models\Twitter\SqlQueries.cs" />
     <Compile Include="Models\Twitter\Tweet.cs" />
     <Compile Include="Models\Twitter\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

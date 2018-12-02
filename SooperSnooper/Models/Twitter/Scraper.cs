@@ -1,56 +1,55 @@
 ﻿using AngleSharp;
+using AngleSharp.Dom;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
+using System.Threading.Tasks;
 
 namespace SooperSnooper.Models.Twitter
 {
     public class Scraper
     {
-        public static async void ScrapeLink()
+        public static async Task<string> ScrapeUserLink(string accountUrl)
         {
 
-            string baseURL = "https://mobile.twitter.com";
-            string userURL = "/JeremyECrawford";
+            string baseUrl = "https://mobile.twitter.com";
+            //string userURL = "/JeremyECrawford";
 
-            var config = Configuration.Default.WithDefaultLoader();
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(baseURL + userURL);
+            IConfiguration config = Configuration.Default.WithDefaultLoader();
+            IBrowsingContext context = BrowsingContext.New(config);
+            IDocument document = await context.OpenAsync(baseUrl + accountUrl);
 
-            var fullname = document.QuerySelector("div.fullname").TextContent.Trim();
-            var username = document.QuerySelector("span.screen-name").TextContent.Trim();
-            var location = document.QuerySelector("div.location").TextContent.Trim();
+            string username = document.QuerySelector("span.screen-name").TextContent.Trim();
+            string displayname = document.QuerySelector("div.fullname").TextContent.Trim();
+            string location = document.QuerySelector("div.location").TextContent.Trim();
 
-            var nextURL = document.QuerySelector("div.w-button-more").QuerySelector("a").GetAttribute("href");
+            //var tweets = document.QuerySelectorAll("div.tweet-text");
 
-            //Console.WriteLine($"{nextURL}");
-            //Console.WriteLine($"{fullname} : {username} : {location}");
+            var tweetContainer = document.QuerySelectorAll("div.tweet-test");
+            foreach (var tweet in tweetContainer)
+            {
+                var tweetId = tweet.GetAttribute("data-id");
 
-            var tweets = document.QuerySelectorAll("div.tweet-text");
-            //var tweetId = tweets.;
+                StringBuilder builder = new StringBuilder();
+                foreach (var child in tweet.FirstChild.ChildNodes)
+                {
+                    builder.Append($"{child.TextContent.Trim()} ");
+                }
+                Console.WriteLine(tweetId);
+                Console.WriteLine($"{builder}\n");
+            }
 
             var tweetContent = document.QuerySelectorAll("div.dir-ltr");
-
-            //Console.WriteLine($"{tweets.Any()} : {tweets.Count()}");
-            //Console.WriteLine(tweetContent.Any());
             foreach (var tweet in tweetContent)
             {
-                //Console.WriteLine(tweet.GetType().Name);
-                //Console.WriteLine(tweet.NodeName);
                 StringBuilder builder = new StringBuilder();
                 foreach (var child in tweet.ChildNodes)
                 {
-                    //Console.WriteLine(child.GetType().Name);
-                    //Console.WriteLine(child.NodeName);
-                    //Console.WriteLine(child.HasChildNodes);
                     builder.Append($"{child.TextContent.Trim()} ");
-                    //Console.Write(child.TextContent.Trim());
                 }
                 Console.WriteLine($"{builder}\n");
             }
-        }
 
+            return document.QuerySelector("div.w-button-more")?.QuerySelector("a")?.GetAttribute("href");
+        }
     }
 }
