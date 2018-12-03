@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace SooperSnooper.Models.Twitter
 {
@@ -19,7 +16,7 @@ namespace SooperSnooper.Models.Twitter
 
         public string Location { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime JoinDate { get; set; }
 
     }

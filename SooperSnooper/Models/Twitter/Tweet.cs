@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace SooperSnooper.Models.Twitter
 {
@@ -21,7 +18,7 @@ namespace SooperSnooper.Models.Twitter
         [Required]
         public string MessageBody { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime PostDate { get; set; }
     }
 }

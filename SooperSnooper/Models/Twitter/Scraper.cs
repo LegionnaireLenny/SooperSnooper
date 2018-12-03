@@ -1,18 +1,17 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using System;
-using System.Text;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SooperSnooper.Models.Twitter
 {
     public class Scraper
     {
-        public static async Task<string> ScrapeUserLink(string accountUrl)
+        public static async Task<UserTweet> ScrapeUserLink(string accountUrl)
         {
 
             string baseUrl = "https://mobile.twitter.com";
-            //string userURL = "/JeremyECrawford";
+            //string accountUrl = "/JeremyECrawford";
 
             IConfiguration config = Configuration.Default.WithDefaultLoader();
             IBrowsingContext context = BrowsingContext.New(config);
@@ -22,34 +21,49 @@ namespace SooperSnooper.Models.Twitter
             string displayname = document.QuerySelector("div.fullname").TextContent.Trim();
             string location = document.QuerySelector("div.location").TextContent.Trim();
 
-            //var tweets = document.QuerySelectorAll("div.tweet-text");
+            //var tweetContainer = document.QuerySelectorAll("div.tweet-text");
+            //foreach (var tweet in tweetContainer)
+            //{
+            //    var tweetId = tweet.GetAttribute("data-id");
 
-            var tweetContainer = document.QuerySelectorAll("div.tweet-test");
-            foreach (var tweet in tweetContainer)
+            //    StringBuilder builder = new StringBuilder();
+            //    foreach (var child in tweet.FirstChild.ChildNodes)
+            //    {
+            //        builder.Append($"{child.TextContent.Trim()} ");
+            //    }
+            //    Console.WriteLine(tweetId);
+            //    Console.WriteLine($"{builder}\n");
+            //}
+
+            List<Tweet> tweets = new List<Tweet>();
+            var queryTweets = document.QuerySelectorAll("div.tweet-text");
+
+            foreach (var tweet in queryTweets)
             {
-                var tweetId = tweet.GetAttribute("data-id");
-
-                StringBuilder builder = new StringBuilder();
-                foreach (var child in tweet.FirstChild.ChildNodes)
+                tweets.Add(new Tweet()
                 {
-                    builder.Append($"{child.TextContent.Trim()} ");
-                }
-                Console.WriteLine(tweetId);
-                Console.WriteLine($"{builder}\n");
+                    Id = tweet.GetAttribute("data-id"),
+                    Username = username,
+                    MessageBody = tweet.TextContent.Trim()
+                });
             }
 
-            var tweetContent = document.QuerySelectorAll("div.dir-ltr");
-            foreach (var tweet in tweetContent)
+            UserTweet userTweet = new UserTweet()
             {
-                StringBuilder builder = new StringBuilder();
-                foreach (var child in tweet.ChildNodes)
+                User = new User()
                 {
-                    builder.Append($"{child.TextContent.Trim()} ");
-                }
-                Console.WriteLine($"{builder}\n");
-            }
+                    Username = username,
+                    DisplayName = displayname,
+                    Location = location
+                },
+                Tweets = tweets,
+                NextUrl = document
+                            ?.QuerySelector("div.w-button-more")
+                            ?.QuerySelector("a")
+                            ?.GetAttribute("href")
+            };
 
-            return document.QuerySelector("div.w-button-more")?.QuerySelector("a")?.GetAttribute("href");
+            return userTweet;
         }
     }
 }
