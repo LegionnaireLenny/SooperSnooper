@@ -200,8 +200,29 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SnoopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031614511_CreateDatabase.cs" />
+    <Compile Include="Migrations\201812031614511_CreateDatabase.Designer.cs">
+      <DependentUpon>201812031614511_CreateDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031835300_UsernameLengthIncrease.cs" />
+    <Compile Include="Migrations\201812031835300_UsernameLengthIncrease.Designer.cs">
+      <DependentUpon>201812031835300_UsernameLengthIncrease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031850256_UsernameLengthTest.cs" />
+    <Compile Include="Migrations\201812031850256_UsernameLengthTest.Designer.cs">
+      <DependentUpon>201812031850256_UsernameLengthTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031900194_DroppedPostDates.cs" />
+    <Compile Include="Migrations\201812031900194_DroppedPostDates.Designer.cs">
+      <DependentUpon>201812031900194_DroppedPostDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812032101080_ChangedTwitterModel.cs" />
+    <Compile Include="Migrations\201812032101080_ChangedTwitterModel.Designer.cs">
+      <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASP\AccountViewModels.cs" />
@@ -211,6 +232,7 @@
     <Compile Include="Models\Twitter\Scraper.cs" />
     <Compile Include="Models\Twitter\Tweet.cs" />
     <Compile Include="Models\Twitter\User.cs" />
+    <Compile Include="Models\Twitter\UserList.cs" />
     <Compile Include="Models\Twitter\UserTweet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -220,6 +242,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Icon\favicon.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -251,8 +274,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
@@ -265,6 +286,9 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Snoop\Snoop.cshtml" />
+    <Content Include="Views\Snoop\Scoops.cshtml" />
+    <Content Include="Views\Snoop\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -281,6 +305,23 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812031614511_CreateDatabase.resx">
+      <DependentUpon>201812031614511_CreateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031835300_UsernameLengthIncrease.resx">
+      <DependentUpon>201812031835300_UsernameLengthIncrease.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031850256_UsernameLengthTest.resx">
+      <DependentUpon>201812031850256_UsernameLengthTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031900194_DroppedPostDates.resx">
+      <DependentUpon>201812031900194_DroppedPostDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812032101080_ChangedTwitterModel.resx">
+      <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

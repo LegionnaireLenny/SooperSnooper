@@ -1,0 +1,27 @@
+﻿@model SooperSnooper.Models.Twitter.UserList
+@{
+    ViewBag.Title = "Look at Scoops";
+}
+
+@using (Html.BeginForm("Details", "Snoop"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Snoop Through the Scoops</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Username, new SelectList(Model.Users, "Username", "Username"), "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Scoop" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

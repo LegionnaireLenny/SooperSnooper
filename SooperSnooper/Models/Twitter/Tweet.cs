@@ -10,15 +10,14 @@ namespace SooperSnooper.Models.Twitter
         public string Id { get; set; }
 
         [Required]
-        [ForeignKey("User")]
-        [StringLength(15)]
-        [RegularExpression(@"^[a-zA-Z_0-9]+$", ErrorMessage = "Only alphanumeric characters and underscore are allowed.")]
         public string Username { get; set; }
+
+        public User User { get; set; }
 
         [Required]
         public string MessageBody { get; set; }
 
         //[Required]
-        public DateTime PostDate { get; set; }
+        //public DateTime PostDate { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Snoop";
+    string validationErrors = string.Join(",",
+                    ViewData.ModelState.Values.Where(E => E.Errors.Count > 0)
+                    .SelectMany(E => E.Errors)
+                    .Select(E => E.ErrorMessage)
+                    .ToArray());
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Snoop for a New Scoop</h2>
+        <hr />
+        @*@validationErrors*@
+        @Html.Label(validationErrors, new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Username", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("Username", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Snoop" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

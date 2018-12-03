@@ -17,7 +17,6 @@ namespace SooperSnooper.Models.Twitter
         public string Location { get; set; }
 
         //[Required]
-        public DateTime JoinDate { get; set; }
-
+        //public DateTime JoinDate { get; set; }
     }
 }
