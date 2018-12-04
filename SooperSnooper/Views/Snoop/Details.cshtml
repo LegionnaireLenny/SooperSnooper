@@ -1,20 +1,31 @@
-﻿@model IEnumerable<SooperSnooper.Models.Twitter.Tweet>
+﻿@model PagedList.IPagedList<SooperSnooper.Models.Twitter.Tweet>
+@using PagedList.Mvc
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+
 @{
-    ViewBag.Title = "Snooping on User";
+    ViewBag.Title = "Snooping on " + Html.ValueFor(model => model.First().Username);
 }
-<h2>@ViewBag.Title.</h2>
+
+<h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
 
 
-@Html.DisplayNameFor(model => model.Username)
+@using (Html.BeginForm())
+{
+    <p class="searchbar">
+        Search message body: @Html.TextBox("SearchString")
+        <input type="submit" value="Snoop Messages" />
+    </p>
+}
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.First().Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MessageBody)
+            @Html.DisplayNameFor(model => model.First().MessageBody)
         </th>
     </tr>
 
@@ -29,3 +40,7 @@
             </td>
         </tr>
     }
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Details",
+    new { username = Model.First().Username, page, currentFilter = ViewBag.CurrentFilter }))

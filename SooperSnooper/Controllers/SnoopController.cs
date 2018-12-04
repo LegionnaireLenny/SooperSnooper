@@ -1,10 +1,9 @@
-﻿using SooperSnooper.Models;
+﻿using PagedList;
+using SooperSnooper.Models;
 using SooperSnooper.Models.Twitter;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SooperSnooper.Controllers
@@ -60,11 +59,34 @@ namespace SooperSnooper.Controllers
         }
 
         // GET: Snoop/Details/5
-        public ActionResult Details(string username)
+        public ActionResult Details(string username,
+                                    string currentFilter,
+                                    string searchString,
+                                    int? page)
         {
-            var tweets = db.Tweets.Where(m => m.Username == username).ToList();
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
-            return View(tweets);
+            ViewBag.CurrentFilter = searchString;
+
+            var tweets = db.Tweets.Where(m => m.Username == username);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                tweets = tweets.Where(s => s.MessageBody.Contains(searchString));
+            }
+
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+
+            return View(tweets.OrderByDescending(m => m.Id).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Snoop
@@ -86,7 +108,7 @@ namespace SooperSnooper.Controllers
             }
             catch
             {
-                return RedirectToAction("Error", "Shared");
+                return RedirectToAction("Index", "Home");
             }
         }
 
