@@ -230,6 +230,14 @@
     <Compile Include="Migrations\201812032101080_ChangedTwitterModel.Designer.cs">
       <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812042102354_ChangeNameLengthReAddedDates.cs" />
+    <Compile Include="Migrations\201812042102354_ChangeNameLengthReAddedDates.Designer.cs">
+      <DependentUpon>201812042102354_ChangeNameLengthReAddedDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812042122550_DroppedPostDatesAgain.cs" />
+    <Compile Include="Migrations\201812042122550_DroppedPostDatesAgain.Designer.cs">
+      <DependentUpon>201812042122550_DroppedPostDatesAgain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASP\AccountViewModels.cs" />
     <Compile Include="Models\ASP\ApplicationUser.cs" />
@@ -240,7 +248,7 @@
     <Compile Include="Models\Twitter\User.cs" />
     <Compile Include="Models\Twitter\UserList.cs" />
     <Compile Include="Models\Twitter\UserTweet.cs" />
-    <Compile Include="Models\Validation\Snoop.cs" />
+    <Compile Include="Models\Validation\SnoopModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -329,6 +337,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812032101080_ChangedTwitterModel.resx">
       <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812042102354_ChangeNameLengthReAddedDates.resx">
+      <DependentUpon>201812042102354_ChangeNameLengthReAddedDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812042122550_DroppedPostDatesAgain.resx">
+      <DependentUpon>201812042122550_DroppedPostDatesAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

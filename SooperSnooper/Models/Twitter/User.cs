@@ -6,7 +6,7 @@ namespace SooperSnooper.Models.Twitter
     public class User
     {
         [Key]
-        [StringLength(15)]
+        [StringLength(15, MinimumLength = 1, ErrorMessage = ("Names must be 1 to 15 characters long."))]
         [RegularExpression(@"^[a-zA-Z_0-9]+$", ErrorMessage = "Only alphanumeric characters and underscores are allowed.")]
         public string Username { get; set; }
 

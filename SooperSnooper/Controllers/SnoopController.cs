@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using SooperSnooper.Models;
 using SooperSnooper.Models.Twitter;
+using SooperSnooper.Models.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,20 @@ namespace SooperSnooper.Controllers
         // POST: Snoop/Create
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Snoop(string username, int? loops)
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Snoop(SnoopModel snoop)
         {
             try
             {
-                string accountUrl = $"/{username}";
+                if (!ModelState.IsValid)
+                {
+                    return View("Snoop", snoop);
+                }
+
+                string accountUrl = $"/{snoop.Username}";
                 UserTweet scrapedTweets;
 
-                loops = loops ?? int.MaxValue;
+                int loops = snoop.Loops == 0 ? int.MaxValue : snoop.Loops;
 
                 int counter = 1;
                 while (!string.IsNullOrEmpty(accountUrl) && loops > 0)
@@ -54,22 +61,22 @@ namespace SooperSnooper.Controllers
                         db.Tweets.AddRange(newTweets);
                     }
 
-                    if (counter * 20 % 100 == 0)
-                    {
-                        db.SaveChanges();
-                    }
+                    //if (counter * 20 % 100 == 0)
+                    //{
+                    //}
+                    db.SaveChanges();
 
+                    loops--;
                     counter++;
-                    await Task.Delay(1500);
+                    await Task.Delay(2000);
                 }
 
-                db.SaveChanges();
-                //return RedirectToAction("Index", "Home");
-                return RedirectToAction("Details", new { username });
+                //db.SaveChanges();
+                return RedirectToAction("Details", new { snoop.Username });
             }
             catch (ArgumentNullException e)
             {
-                ModelState.AddModelError("Error", "Invalid username");
+                ModelState.AddModelError("Error", "Username not found");
                 return View();
             }
             catch (Exception e)
@@ -88,6 +95,12 @@ namespace SooperSnooper.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(username))
+                {
+                    ModelState.AddModelError("Null Username", "A username must be selected");
+                    return RedirectToAction("Scoops", "Snoop");
+                }
+
                 ViewBag.Username = username;
 
                 if (searchString != null)
@@ -115,15 +128,15 @@ namespace SooperSnooper.Controllers
                 return View(tweets.OrderByDescending(m => m.Id).ToPagedList(pageNumber, pageSize));
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                return RedirectToAction("Scoop", "Snoop");
+                return RedirectToAction("Index", "Home");
             }
         }
 
         // GET: Snoop
         [Authorize]
+        //[ValidateAntiForgeryToken]
         public ActionResult Scoops()
         {
             try
@@ -138,6 +151,7 @@ namespace SooperSnooper.Controllers
                 }
                 else
                 {
+
                     userList = new UserList()
                     {
                         Users = db.TwitterUsers.ToList()
@@ -145,7 +159,7 @@ namespace SooperSnooper.Controllers
                 }
                 return View(userList);
             }
-            catch
+            catch (Exception e)
             {
                 return RedirectToAction("Index", "Home");
             }

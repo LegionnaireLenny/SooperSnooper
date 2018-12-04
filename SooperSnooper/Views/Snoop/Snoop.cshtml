@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SooperSnooper.Models.Validation.SnoopModel
+@{
     ViewBag.Title = "Snoop";
     string validationErrors = string.Join(",",
                     ViewData.ModelState.Values.Where(E => E.Errors.Count > 0)
@@ -14,19 +15,21 @@
     <div class="form-horizontal">
         <h2>Snoop for a New Scoop</h2>
         <hr />
-        @Html.Label(validationErrors, new { @class = "text-danger" })
 
+        @Html.ValidationSummary(true, validationErrors, new { @class = "text-danger" })
         <div class="form-group">
-            @Html.Label("Number of tweets to retrive x 20 ", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(Model => Model.Loops, "Desired tweets x 20", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("Loops", null, new { @type = "number", @class = "form-control" })
+                @Html.EditorFor(Model => Model.Loops, new { htmlAttributes = new { @type = "number", @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Loops)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Username", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(Model => Model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Editor("Username", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(Model => Model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Username)
             </div>
         </div>
 
