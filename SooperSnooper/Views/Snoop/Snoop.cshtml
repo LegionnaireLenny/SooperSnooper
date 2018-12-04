@@ -14,8 +14,15 @@
     <div class="form-horizontal">
         <h2>Snoop for a New Scoop</h2>
         <hr />
-        @*@validationErrors*@
         @Html.Label(validationErrors, new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Number of tweets to retrive x 20 ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Loops", null, new { @type = "number", @class = "form-control" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.Label("Username", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

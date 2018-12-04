@@ -240,6 +240,7 @@
     <Compile Include="Models\Twitter\User.cs" />
     <Compile Include="Models\Twitter\UserList.cs" />
     <Compile Include="Models\Twitter\UserTweet.cs" />
+    <Compile Include="Models\Validation\Snoop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

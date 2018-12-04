@@ -4,20 +4,24 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
 
 @{
-    ViewBag.Title = "Snooping on " + Html.ValueFor(model => model.First().Username);
+    ViewBag.Title = "Snooping on " + ViewBag.Username;
 }
 
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
 
-
-@using (Html.BeginForm())
-{
-    <p class="searchbar">
-        Search message body: @Html.TextBox("SearchString")
-        <input type="submit" value="Snoop Messages" />
+<div class="search-container">
+    @using (Html.BeginForm(new { username = ViewBag.Username }))
+    {
+        <p class="searchbar">
+            Search message body: @Html.TextBox("SearchString")
+            <input type="submit" value="Snoop Messages" />
+        </p>
+    }
+    <p class="filter">
+        <h4>Current Filter: @ViewBag.CurrentFilter</h4>
     </p>
-}
+</div>
 
 <table class="table">
     <tr>
@@ -43,4 +47,4 @@
 </table>
 
 @Html.PagedListPager(Model, page => Url.Action("Details",
-    new { username = Model.First().Username, page, currentFilter = ViewBag.CurrentFilter }))
+    new { username = ViewBag.Username, page, currentFilter = ViewBag.CurrentFilter }))
