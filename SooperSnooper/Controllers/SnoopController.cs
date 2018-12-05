@@ -3,7 +3,6 @@ using SooperSnooper.Models;
 using SooperSnooper.Models.Twitter;
 using SooperSnooper.Models.Validation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -15,16 +14,16 @@ namespace SooperSnooper.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Snoop/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Snoop()
         {
             return View();
         }
 
         // POST: Snoop/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Snoop(SnoopModel snoop)
         {
             try
@@ -61,9 +60,6 @@ namespace SooperSnooper.Controllers
                         db.Tweets.AddRange(newTweets);
                     }
 
-                    //if (counter * 20 % 100 == 0)
-                    //{
-                    //}
                     db.SaveChanges();
 
                     loops--;
@@ -87,7 +83,7 @@ namespace SooperSnooper.Controllers
         }
 
         // GET: Snoop/Details/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(string username,
                                     string currentFilter,
                                     string searchString,
@@ -135,8 +131,7 @@ namespace SooperSnooper.Controllers
         }
 
         // GET: Snoop
-        [Authorize]
-        //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Scoops()
         {
             try

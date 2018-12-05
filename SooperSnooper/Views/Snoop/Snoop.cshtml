@@ -1,6 +1,6 @@
 ﻿@model SooperSnooper.Models.Validation.SnoopModel
 @{
-    ViewBag.Title = "Snoop";
+    ViewBag.Title = "Snooping for Scoops";
     string validationErrors = string.Join(",",
                     ViewData.ModelState.Values.Where(E => E.Errors.Count > 0)
                     .SelectMany(E => E.Errors)

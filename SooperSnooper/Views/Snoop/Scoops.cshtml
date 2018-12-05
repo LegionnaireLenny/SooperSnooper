@@ -1,6 +1,6 @@
 ﻿@model SooperSnooper.Models.Twitter.UserList
 @{
-    ViewBag.Title = "Look at Scoops";
+    ViewBag.Title = "Snooping the Scoops";
     string validationErrors = string.Join(",",
                 ViewData.ModelState.Values.Where(E => E.Errors.Count > 0)
                 .SelectMany(E => E.Errors)
@@ -10,8 +10,6 @@
 
 @using (Html.BeginForm("Details", "Snoop"))
 {
-    @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <h2>Snoop Through the Scoops</h2>
         <hr />
