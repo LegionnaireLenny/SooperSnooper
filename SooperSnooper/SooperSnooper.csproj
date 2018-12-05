@@ -214,14 +214,6 @@
     <Compile Include="Migrations\201812031614511_CreateDatabase.Designer.cs">
       <DependentUpon>201812031614511_CreateDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812031835300_UsernameLengthIncrease.cs" />
-    <Compile Include="Migrations\201812031835300_UsernameLengthIncrease.Designer.cs">
-      <DependentUpon>201812031835300_UsernameLengthIncrease.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812031850256_UsernameLengthTest.cs" />
-    <Compile Include="Migrations\201812031850256_UsernameLengthTest.Designer.cs">
-      <DependentUpon>201812031850256_UsernameLengthTest.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201812031900194_DroppedPostDates.cs" />
     <Compile Include="Migrations\201812031900194_DroppedPostDates.Designer.cs">
       <DependentUpon>201812031900194_DroppedPostDates.cs</DependentUpon>
@@ -230,20 +222,16 @@
     <Compile Include="Migrations\201812032101080_ChangedTwitterModel.Designer.cs">
       <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812042102354_ChangeNameLengthReAddedDates.cs" />
-    <Compile Include="Migrations\201812042102354_ChangeNameLengthReAddedDates.Designer.cs">
-      <DependentUpon>201812042102354_ChangeNameLengthReAddedDates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812042122550_DroppedPostDatesAgain.cs" />
-    <Compile Include="Migrations\201812042122550_DroppedPostDatesAgain.Designer.cs">
-      <DependentUpon>201812042122550_DroppedPostDatesAgain.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASP\AccountViewModels.cs" />
     <Compile Include="Models\ASP\ApplicationUser.cs" />
     <Compile Include="Models\ASP\IdentityModels.cs" />
     <Compile Include="Models\ASP\ManageViewModels.cs" />
+    <Compile Include="Models\Exceptions\ProtectedAccountException.cs" />
+    <Compile Include="Models\Exceptions\UserNotFoundException.cs" />
+    <Compile Include="Models\Exceptions\NoTweetsFoundException.cs" />
     <Compile Include="Models\Twitter\Scraper.cs" />
+    <Compile Include="Models\Exceptions\SuspendedAccountException.cs" />
     <Compile Include="Models\Twitter\Tweet.cs" />
     <Compile Include="Models\Twitter\User.cs" />
     <Compile Include="Models\Twitter\UserList.cs" />
@@ -294,7 +282,6 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
@@ -326,23 +313,11 @@
     <EmbeddedResource Include="Migrations\201812031614511_CreateDatabase.resx">
       <DependentUpon>201812031614511_CreateDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812031835300_UsernameLengthIncrease.resx">
-      <DependentUpon>201812031835300_UsernameLengthIncrease.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812031850256_UsernameLengthTest.resx">
-      <DependentUpon>201812031850256_UsernameLengthTest.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812031900194_DroppedPostDates.resx">
       <DependentUpon>201812031900194_DroppedPostDates.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812032101080_ChangedTwitterModel.resx">
       <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812042102354_ChangeNameLengthReAddedDates.resx">
-      <DependentUpon>201812042102354_ChangeNameLengthReAddedDates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812042122550_DroppedPostDatesAgain.resx">
-      <DependentUpon>201812042122550_DroppedPostDatesAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

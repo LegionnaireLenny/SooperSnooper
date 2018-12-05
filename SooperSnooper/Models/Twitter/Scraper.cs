@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using SooperSnooper.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,12 +19,27 @@ namespace SooperSnooper.Models.Twitter
             IBrowsingContext context = BrowsingContext.New(config);
             IDocument document = await context.OpenAsync(baseUrl + accountUrl);
 
-            string username = document?.QuerySelector("span.screen-name")?.TextContent.Trim() ?? throw new ArgumentNullException("username", "Username not found");
+            if (document?.QuerySelector("div.title")?.TextContent?.Equals("This account has been suspended.") == true)
+            {
+                throw new SuspendedAccountException("User has been suspended");
+            }
+
+            string username = document?.QuerySelector("span.screen-name")?.TextContent.Trim() ?? throw new UserNotFoundException("User does not exist");
             string displayname = document?.QuerySelector("div.fullname")?.TextContent.Trim();
             string location = document?.QuerySelector("div.location")?.TextContent.Trim();
 
+            if (document?.QuerySelector("div.protected") != null)
+            {
+                throw new ProtectedAccountException("User has a protected account");
+            }
+
             List<Tweet> tweets = new List<Tweet>();
-            var queryTweets = document.QuerySelectorAll("div.tweet-text");
+            var queryTweets = document?.QuerySelectorAll("div.tweet-text");
+
+            if(queryTweets.Length == 0)
+            {
+                throw new NoTweetsFoundException("User has no tweets");
+            }
 
             User user = new User()
             {

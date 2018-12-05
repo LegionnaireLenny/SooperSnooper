@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using SooperSnooper.Models;
+using SooperSnooper.Models.Exceptions;
 using SooperSnooper.Models.Twitter;
 using SooperSnooper.Models.Validation;
 using System;
@@ -64,15 +65,29 @@ namespace SooperSnooper.Controllers
 
                     loops--;
                     counter++;
-                    await Task.Delay(2000);
+                    await Task.Delay(1250);
                 }
 
-                //db.SaveChanges();
                 return RedirectToAction("Details", new { snoop.Username });
             }
-            catch (ArgumentNullException e)
+            catch (SuspendedAccountException e)
             {
-                ModelState.AddModelError("Error", "Username not found");
+                ModelState.AddModelError("Suspended", e.Message);
+                return View();
+            }
+            catch (UserNotFoundException e)
+            {
+                ModelState.AddModelError("NotFound", e.Message);
+                return View();
+            }
+            catch (ProtectedAccountException e)
+            {
+                ModelState.AddModelError("Protected", e.Message);
+                return View();
+            }
+            catch (NoTweetsFoundException e)
+            {
+                ModelState.AddModelError("NoTweets", e.Message);
                 return View();
             }
             catch (Exception e)
