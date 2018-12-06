@@ -1,7 +1,7 @@
 ﻿@model SooperSnooper.Models.Validation.SnoopModel
 @{
     ViewBag.Title = "Snooping for Scoops";
-    string validationErrors = string.Join(",",
+    string validationErrors = string.Join("\n",
                     ViewData.ModelState.Values.Where(E => E.Errors.Count > 0)
                     .SelectMany(E => E.Errors)
                     .Select(E => E.ErrorMessage)
@@ -13,15 +13,15 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h2>Snoop for a New Scoop</h2>
+        <h2>Snoop for a Scoop</h2>
         <hr />
 
         @Html.ValidationSummary(true, validationErrors, new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(Model => Model.Loops, "Desired tweets x 20", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(Model => Model.Loops, "Pages of Tweets", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(Model => Model.Loops, new { htmlAttributes = new { @type = "number", @class = "form-control" } })
-                @Html.ValidationMessageFor(Model => Model.Loops)
+@*                @Html.ValidationMessageFor(Model => Model.Loops)*@
             </div>
         </div>
 
@@ -29,7 +29,7 @@
             @Html.LabelFor(Model => Model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(Model => Model.Username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(Model => Model.Username)
+                @*@Html.ValidationMessageFor(Model => Model.Username)*@
             </div>
         </div>
 

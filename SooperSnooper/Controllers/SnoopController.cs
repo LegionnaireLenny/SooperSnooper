@@ -139,7 +139,7 @@ namespace SooperSnooper.Controllers
                 return View(tweets.OrderByDescending(m => m.Id).ToPagedList(pageNumber, pageSize));
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -169,7 +169,7 @@ namespace SooperSnooper.Controllers
                 }
                 return View(userList);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return RedirectToAction("Index", "Home");
             }
