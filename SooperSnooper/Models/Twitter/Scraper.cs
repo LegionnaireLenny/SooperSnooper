@@ -13,7 +13,6 @@ namespace SooperSnooper.Models.Twitter
         {
 
             string baseUrl = "https://mobile.twitter.com";
-            //string accountUrl = "/JeremyECrawford";
 
             IConfiguration config = Configuration.Default.WithDefaultLoader();
             IBrowsingContext context = BrowsingContext.New(config);
