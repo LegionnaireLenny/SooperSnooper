@@ -9,6 +9,38 @@ namespace SooperSnooper.Models.Twitter
 {
     public class Scraper
     {
+        public static DateTime ConvertTimestamp(string timestamp)
+        {
+            DateTime convertedStamp = DateTime.Now;
+
+            if (timestamp.Length <= 3)
+            {
+                if (timestamp.Contains("m"))
+                {
+                    int minutes = int.Parse(timestamp.Replace("m", ""));
+                    convertedStamp = convertedStamp.AddMinutes(-minutes);
+                }
+                else if (timestamp.Contains("h"))
+                {
+                    int hours = int.Parse(timestamp.Replace("h", ""));
+                    convertedStamp = convertedStamp.AddHours(-hours);
+                }
+                else
+                {
+                    throw new FormatException($"{timestamp} has unexpected format");
+                }
+            }
+            else
+            {
+                if (!DateTime.TryParse(timestamp, out convertedStamp))
+                {
+                    throw new FormatException($"{timestamp} has unexpected format");
+                }
+            }
+
+            return convertedStamp;
+        }
+
         public static async Task<UserTweet> ScrapeUserLink(string accountUrl)
         {
 

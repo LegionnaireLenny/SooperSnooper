@@ -17,7 +17,7 @@ namespace SooperSnooper.Models.Twitter
         [Required]
         public string MessageBody { get; set; }
 
-        //[Required]
-        //public DateTime PostDate { get; set; }
+        [Required]
+        public DateTime PostDate { get; set; }
     }
 }
