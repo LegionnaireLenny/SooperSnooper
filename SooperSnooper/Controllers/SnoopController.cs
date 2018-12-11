@@ -97,58 +97,118 @@ namespace SooperSnooper.Controllers
             }
         }
 
+        //// GET: Snoop/Details/5
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Details(string username,
+        //                            string currentFilter,
+        //                            string searchString,
+        //                            string sortOrder,
+        //                            DateTime? startDate,
+        //                            DateTime? endDate,
+        //                            int? page)
+        //{
+        //    try
+        //    {
+        //        ViewBag.CurrentSort = sortOrder;
+        //        ViewBag.DateSort = string.IsNullOrEmpty(sortOrder) ? "Date" : "";
+
+        //        if (string.IsNullOrEmpty(username))
+        //        {
+        //            ModelState.AddModelError("Null Username", "A username must be selected");
+        //            return RedirectToAction("Scoops", "Snoop");
+        //        }
+
+        //        startDate = startDate ?? DateTime.MinValue;
+        //        endDate = endDate ?? DateTime.MaxValue;
+
+
+        //        if (searchString != null)
+        //        {
+        //            page = 1;
+        //        }
+        //        else
+        //        {
+        //            searchString = currentFilter;
+        //        }
+
+        //        ViewBag.Username = username;
+        //        ViewBag.CurrentFilter = searchString;
+        //        ViewBag.DateStart = startDate;
+        //        ViewBag.DateEnd = endDate;
+
+        //        var tweets = db.Tweets.Where(m => m.Username == username);
+        //        var test = tweets.ToList();
+        //        if (startDate != DateTime.MinValue || endDate != DateTime.MaxValue)
+        //        {
+        //            tweets = tweets.Where(d => d.PostDate >= startDate && d.PostDate <= endDate);
+        //        }
+        //        test = tweets.ToList();
+        //        if (!string.IsNullOrEmpty(searchString))
+        //        {
+        //            tweets = tweets.Where(s => s.MessageBody.Contains(searchString));
+        //        }
+
+        //        switch (sortOrder)
+        //        {
+        //            case "Date":
+        //                tweets = tweets.OrderBy(t => t.PostDate);
+        //                //tweets = tweets.OrderByDescending(t => t.PostDate);
+        //                break;
+        //            default:
+        //                //tweets = tweets.OrderBy(t => t.PostDate);
+        //                tweets = tweets.OrderByDescending(t => t.PostDate);
+        //                break;
+        //        }
+
+        //        int pageSize = 20;
+        //        int pageNumber = (page ?? 1);
+
+        //        return View(tweets.ToPagedList(pageNumber, pageSize));
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //}
+
         // GET: Snoop/Details/5
         [Authorize(Roles = "Admin")]
-        public ActionResult Details(string username,
-                                    string currentFilter,
-                                    string searchString,
-                                    string sortOrder,
-                                    DateTime? startDate,
-                                    DateTime? endDate,
-                                    int? page)
+        public ActionResult Details(DetailsViewModel details)
         {
             try
             {
-                ViewBag.CurrentSort = sortOrder;
-                ViewBag.DateSort = string.IsNullOrEmpty(sortOrder) ? "Date" : "";
-
-                if (string.IsNullOrEmpty(username))
+                if (string.IsNullOrEmpty(details.Username))
                 {
                     ModelState.AddModelError("Null Username", "A username must be selected");
                     return RedirectToAction("Scoops", "Snoop");
                 }
 
-                startDate = startDate ?? DateTime.MinValue;
-                endDate = endDate ?? DateTime.MaxValue;
+                details.SortOrder = !string.IsNullOrEmpty(details.SortOrder) ? "" : "Date";
+                details.StartDate = details.StartDate ?? DateTime.MinValue;
+                details.EndDate = details.EndDate ?? DateTime.MaxValue;
 
-
-                if (searchString != null)
+                if (details.SearchString != null)
                 {
-                    page = 1;
+                    details.Page = 1;
                 }
-                else
-                {
-                    searchString = currentFilter;
-                }
+                //else
+                //{
+                //    details.SearchString = details.CurrentFilter;
+                //}
 
-                ViewBag.Username = username;
-                ViewBag.CurrentFilter = searchString;
-                ViewBag.DateStart = startDate;
-                ViewBag.DateEnd = endDate;
+                var tweets = db.Tweets.Where(m => m.Username == details.Username);
 
-                var tweets = db.Tweets.Where(m => m.Username == username);
-                var test = tweets.ToList();
-                if (startDate != DateTime.MinValue || endDate != DateTime.MaxValue)
+                if (details.StartDate != DateTime.MinValue || details.EndDate != DateTime.MaxValue)
                 {
-                    tweets = tweets.Where(d => d.PostDate >= startDate && d.PostDate <= endDate);
+                    tweets = tweets.Where(d => d.PostDate >= details.StartDate && d.PostDate <= details.EndDate);
                 }
-                test = tweets.ToList();
-                if (!string.IsNullOrEmpty(searchString))
+                if (!string.IsNullOrEmpty(details.SearchString))
                 {
-                    tweets = tweets.Where(s => s.MessageBody.Contains(searchString));
+                    tweets = tweets.Where(s => s.MessageBody.Contains(details.SearchString));
                 }
 
-                switch (sortOrder)
+                switch (details.SortOrder)
                 {
                     case "Date":
                         tweets = tweets.OrderBy(t => t.PostDate);
@@ -161,9 +221,11 @@ namespace SooperSnooper.Controllers
                 }
 
                 int pageSize = 20;
-                int pageNumber = (page ?? 1);
+                int pageNumber = (details.Page ?? 1);
 
-                return View(tweets.ToPagedList(pageNumber, pageSize));
+                details.Tweets = tweets.ToPagedList(pageNumber, pageSize);
+
+                return View(details);
 
             }
             catch (Exception e)

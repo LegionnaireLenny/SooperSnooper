@@ -1,33 +1,28 @@
-﻿@model PagedList.IPagedList<SooperSnooper.Models.Twitter.Tweet>
+﻿@model SooperSnooper.Models.Twitter.DetailsViewModel
+@*@model PagedList.IPagedList<SooperSnooper.Models.Twitter.Tweet>*@
 @using PagedList.Mvc
+@using PagedList
 @using System.Globalization
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
 
 @{
-    ViewBag.Title = "Snooping on " + ViewBag.Username;
+    ViewBag.Title = "Snooping on " + "<insert username from model here>";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Snooping on @Html.LabelFor(model => model.Username)</h2>
 
 <div class="search-container">
-    @using (Html.BeginForm(new
-    {
-        username = ViewBag.Username,
-        currentFilter = ViewBag.CurrentFilter,
-        sortOrder = ViewBag.CurrentSort,
-        startDate = ViewBag.DateStart,
-        endDate = ViewBag.DateEnd,
-    }))
+    @using (Html.BeginForm())
     {
         <p class="searchbar">
             Date range:
-            @Html.TextBox("StartDate", null, new { @type = "date", @class = "form-control snoop-box"})
+            @Html.TextBoxFor(model => model.StartDate, new { @type = "date", @class = "form-control snoop-box" })
             to
-            @Html.TextBox("EndDate", null, new { @type = "date", @class = "form-control snoop-box" })
+            @Html.TextBoxFor(model => model.EndDate, new { @type = "date", @class = "form-control snoop-box" })
         </p>
         <p class="searchbar">
-            Search message body: @Html.TextBox("SearchString", null, new { @class = "form-control snoop-box" })
+            Search message body: @Html.TextBoxFor(model => model.SearchString, new { @class = "form-control snoop-box" })
         </p>
 
         <div class="form-group">
@@ -39,10 +34,10 @@
             Current Filter: @ViewBag.CurrentFilter
         </h4>
         <h4>
-            Dates: 
-            @ViewBag.DateStart.ToShortDateString()
+            Dates:
+            @Html.Label(Model.StartDate.Value.Date.ToShortDateString())
             to
-            @ViewBag.DateEnd.ToShortDateString()
+            @Html.Label(Model.EndDate.Value.Date.ToShortDateString())
         </h4>
     </p>
 </div>
@@ -50,24 +45,28 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.First().Id)
+            @Html.DisplayNameFor(model => model.Tweets.First().Id)
         </th>
         <th>
-            @Html.ActionLink("Post Date", "Details", new
-                                                       {
-                                                           username = ViewBag.Username,
-                                                           currentFilter = ViewBag.CurrentFilter,
-                                                           sortOrder = ViewBag.CurrentSort,
-                                                           startDate = ViewBag.DateStart,
-                                                           endDate = ViewBag.DateEnd,
-                                                       })
+            @Html.ActionLink("Post Date", "Details",
+                new
+                {
+                    Model.Username,
+                    //Model.CurrentFilter,
+                    Model.SearchString,
+                    Model.SortOrder,
+                    //Model.DateSort,
+                    Model.StartDate,
+                    Model.EndDate,
+                    Model.Page
+                })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().MessageBody)
+            @Html.DisplayNameFor(model => model.Tweets.First().MessageBody)
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Tweets)
     {
         <tr>
             <td>
@@ -83,14 +82,15 @@
     }
 </table>
 
-@Html.PagedListPager(Model,
-                        page => Url.Action("Details",
-                            new
-                            {
-                                username = ViewBag.Username,
-                                currentFilter = ViewBag.CurrentFilter,
-                                sortOrder = ViewBag.CurrentSort,
-                                startDate = ViewBag.DateStart,
-                                endDate = ViewBag.DateEnd,
-                                page
-                            }))
+@Html.PagedListPager(Model.Tweets, page => Url.Action("Details",
+    new
+    {
+        Model.Username,
+        //Model.CurrentFilter,
+        Model.SearchString,
+        Model.SortOrder,
+        //Model.DateSort,
+        Model.StartDate,
+        Model.EndDate,
+        page
+    }))
