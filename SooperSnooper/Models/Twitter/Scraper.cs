@@ -58,6 +58,8 @@ namespace SooperSnooper.Models.Twitter
             string username = document?.QuerySelector("span.screen-name")?.TextContent.Trim() ?? throw new UserNotFoundException("User does not exist");
             string displayname = document?.QuerySelector("div.fullname")?.TextContent.Trim();
             string location = document?.QuerySelector("div.location")?.TextContent.Trim();
+            //Join date not on mobile version
+            //DateTime joindate = DateTime.Parse(document?.QuerySelector("ProfileHeaderCard-joinDateText")?.GetAttribute("data-original-title").Trim());
 
             if (document?.QuerySelector("div.protected") != null)
             {
@@ -65,7 +67,7 @@ namespace SooperSnooper.Models.Twitter
             }
 
             List<Tweet> tweets = new List<Tweet>();
-            var queryTweets = document?.QuerySelectorAll("div.tweet-text");
+            var queryTweets = document?.QuerySelectorAll("table.tweet");
 
             if(queryTweets.Length == 0)
             {
@@ -83,9 +85,10 @@ namespace SooperSnooper.Models.Twitter
             {
                 tweets.Add(new Tweet()
                 {
-                    Id = tweet.GetAttribute("data-id"),
+                    Id = tweet?.QuerySelector("div.tweet-text")?.GetAttribute("data-id"),
                     Username = username,
-                    MessageBody = tweet.TextContent.Trim()
+                    MessageBody = tweet?.QuerySelector("div.tweet-text")?.TextContent.Trim(),
+                    PostDate = ConvertTimestamp(tweet?.QuerySelector("td.timestamp")?.TextContent.Trim())
                 });
             }
 

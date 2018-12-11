@@ -222,6 +222,10 @@
     <Compile Include="Migrations\201812032101080_ChangedTwitterModel.Designer.cs">
       <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812111409033_AddedTweetPostDate.cs" />
+    <Compile Include="Migrations\201812111409033_AddedTweetPostDate.Designer.cs">
+      <DependentUpon>201812111409033_AddedTweetPostDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASP\AccountViewModels.cs" />
     <Compile Include="Models\ASP\ApplicationUser.cs" />
@@ -230,6 +234,7 @@
     <Compile Include="Models\Exceptions\ProtectedAccountException.cs" />
     <Compile Include="Models\Exceptions\UserNotFoundException.cs" />
     <Compile Include="Models\Exceptions\NoTweetsFoundException.cs" />
+    <Compile Include="Models\Twitter\DetailsViewModel.cs" />
     <Compile Include="Models\Twitter\Scraper.cs" />
     <Compile Include="Models\Exceptions\SuspendedAccountException.cs" />
     <Compile Include="Models\Twitter\Tweet.cs" />
@@ -321,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812032101080_ChangedTwitterModel.resx">
       <DependentUpon>201812032101080_ChangedTwitterModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812111409033_AddedTweetPostDate.resx">
+      <DependentUpon>201812111409033_AddedTweetPostDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

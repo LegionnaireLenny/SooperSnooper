@@ -102,17 +102,25 @@ namespace SooperSnooper.Controllers
         public ActionResult Details(string username,
                                     string currentFilter,
                                     string searchString,
+                                    string sortOrder,
+                                    DateTime? startDate,
+                                    DateTime? endDate,
                                     int? page)
         {
             try
             {
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.DateSort = string.IsNullOrEmpty(sortOrder) ? "Date" : "";
+
                 if (string.IsNullOrEmpty(username))
                 {
                     ModelState.AddModelError("Null Username", "A username must be selected");
                     return RedirectToAction("Scoops", "Snoop");
                 }
 
-                ViewBag.Username = username;
+                startDate = startDate ?? DateTime.MinValue;
+                endDate = endDate ?? DateTime.MaxValue;
+
 
                 if (searchString != null)
                 {
@@ -123,23 +131,42 @@ namespace SooperSnooper.Controllers
                     searchString = currentFilter;
                 }
 
+                ViewBag.Username = username;
                 ViewBag.CurrentFilter = searchString;
+                ViewBag.DateStart = startDate;
+                ViewBag.DateEnd = endDate;
 
                 var tweets = db.Tweets.Where(m => m.Username == username);
-
+                var test = tweets.ToList();
+                if (startDate != DateTime.MinValue || endDate != DateTime.MaxValue)
+                {
+                    tweets = tweets.Where(d => d.PostDate >= startDate && d.PostDate <= endDate);
+                }
+                test = tweets.ToList();
                 if (!string.IsNullOrEmpty(searchString))
                 {
                     tweets = tweets.Where(s => s.MessageBody.Contains(searchString));
                 }
 
+                switch (sortOrder)
+                {
+                    case "Date":
+                        tweets = tweets.OrderBy(t => t.PostDate);
+                        //tweets = tweets.OrderByDescending(t => t.PostDate);
+                        break;
+                    default:
+                        //tweets = tweets.OrderBy(t => t.PostDate);
+                        tweets = tweets.OrderByDescending(t => t.PostDate);
+                        break;
+                }
 
                 int pageSize = 20;
                 int pageNumber = (page ?? 1);
 
-                return View(tweets.OrderByDescending(m => m.Id).ToPagedList(pageNumber, pageSize));
+                return View(tweets.ToPagedList(pageNumber, pageSize));
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return RedirectToAction("Index", "Home");
             }

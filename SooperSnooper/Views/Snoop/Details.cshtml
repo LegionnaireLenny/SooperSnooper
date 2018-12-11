@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<SooperSnooper.Models.Twitter.Tweet>
 @using PagedList.Mvc
+@using System.Globalization
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
 
@@ -10,15 +11,39 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="search-container">
-    @using (Html.BeginForm(new { username = ViewBag.Username }))
+    @using (Html.BeginForm(new
+    {
+        username = ViewBag.Username,
+        currentFilter = ViewBag.CurrentFilter,
+        sortOrder = ViewBag.CurrentSort,
+        startDate = ViewBag.DateStart,
+        endDate = ViewBag.DateEnd,
+    }))
     {
         <p class="searchbar">
-            Search message body: @Html.TextBox("SearchString")
-            <input type="submit" value="Snoop Messages" />
+            Date range:
+            @Html.TextBox("StartDate", null, new { @type = "date", @class = "form-control snoop-box"})
+            to
+            @Html.TextBox("EndDate", null, new { @type = "date", @class = "form-control snoop-box" })
         </p>
+        <p class="searchbar">
+            Search message body: @Html.TextBox("SearchString", null, new { @class = "form-control snoop-box" })
+        </p>
+
+        <div class="form-group">
+            <input type="submit" value="Snoop Messages" class="btn btn-default" />
+        </div>
     }
     <p class="filter">
-        <h4>Current Filter: @ViewBag.CurrentFilter</h4>
+        <h4>
+            Current Filter: @ViewBag.CurrentFilter
+        </h4>
+        <h4>
+            Dates: 
+            @ViewBag.DateStart.ToShortDateString()
+            to
+            @ViewBag.DateEnd.ToShortDateString()
+        </h4>
     </p>
 </div>
 
@@ -26,6 +51,16 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.First().Id)
+        </th>
+        <th>
+            @Html.ActionLink("Post Date", "Details", new
+                                                       {
+                                                           username = ViewBag.Username,
+                                                           currentFilter = ViewBag.CurrentFilter,
+                                                           sortOrder = ViewBag.CurrentSort,
+                                                           startDate = ViewBag.DateStart,
+                                                           endDate = ViewBag.DateEnd,
+                                                       })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().MessageBody)
@@ -39,11 +74,23 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.PostDate)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.MessageBody)
             </td>
         </tr>
     }
 </table>
 
-@Html.PagedListPager(Model, page => Url.Action("Details",
-    new { username = ViewBag.Username, page, currentFilter = ViewBag.CurrentFilter }))
+@Html.PagedListPager(Model,
+                        page => Url.Action("Details",
+                            new
+                            {
+                                username = ViewBag.Username,
+                                currentFilter = ViewBag.CurrentFilter,
+                                sortOrder = ViewBag.CurrentSort,
+                                startDate = ViewBag.DateStart,
+                                endDate = ViewBag.DateEnd,
+                                page
+                            }))
