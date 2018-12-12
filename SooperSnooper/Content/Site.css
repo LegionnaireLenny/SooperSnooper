@@ -118,7 +118,7 @@ hr {
 }
 
 .form-control {
-    color: #00BB00;
+    color: #FFB000;
     background-color: #444;
     border: 1px solid #009900;
 }
@@ -147,6 +147,19 @@ hr {
 .table-header {
     font-family: Square;
 }
+/*.table-middle {
+    border-left: 1px solid #BA8000;
+    border-right: 1px solid #BA8000;
+}*/
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    border-top: 1px solid #BA8000;
+}
 
 /* Change the white to any color ;) */
 input:-webkit-autofill,
@@ -154,7 +167,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 1000px #656565 inset !important;
-    -webkit-text-fill-color: #00FF00 !important;
+    -webkit-text-fill-color: #FFB000 !important;
 }
 
 .text-danger {
