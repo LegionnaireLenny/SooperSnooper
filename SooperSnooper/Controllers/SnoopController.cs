@@ -184,18 +184,19 @@ namespace SooperSnooper.Controllers
                     return RedirectToAction("Scoops", "Snoop");
                 }
 
-                details.SortOrder = !string.IsNullOrEmpty(details.SortOrder) ? "" : "Date";
-                details.StartDate = details.StartDate ?? DateTime.MinValue;
-                details.EndDate = details.EndDate ?? DateTime.MaxValue;
-
                 if (details.SearchString != null)
                 {
                     details.Page = 1;
                 }
-                //else
-                //{
-                //    details.SearchString = details.CurrentFilter;
-                //}
+                else
+                {
+                    details.SearchString = details.CurrentFilter;
+                }
+
+                details.DateSort = !string.IsNullOrEmpty(details.SortOrder) ? "" : "Date";
+                details.StartDate = details.StartDate ?? DateTime.MinValue;
+                details.EndDate = details.EndDate ?? DateTime.MaxValue;
+                details.CurrentFilter = details.SearchString;
 
                 var tweets = db.Tweets.Where(m => m.Username == details.Username);
 
@@ -212,10 +213,8 @@ namespace SooperSnooper.Controllers
                 {
                     case "Date":
                         tweets = tweets.OrderBy(t => t.PostDate);
-                        //tweets = tweets.OrderByDescending(t => t.PostDate);
                         break;
                     default:
-                        //tweets = tweets.OrderBy(t => t.PostDate);
                         tweets = tweets.OrderByDescending(t => t.PostDate);
                         break;
                 }

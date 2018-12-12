@@ -7,10 +7,10 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
 
 @{
-    ViewBag.Title = "Snooping on " + "<insert username from model here>";
+    ViewBag.Title = "Snooping on " + Model.Username;
 }
 
-<h2>Snooping on @Html.LabelFor(model => model.Username)</h2>
+<h2 class="table-header">Snooping on @Model.Username</h2>
 
 <div class="search-container">
     @using (Html.BeginForm())
@@ -29,15 +29,19 @@
             <input type="submit" value="Snoop Messages" class="btn btn-default" />
         </div>
     }
-    <p class="filter">
-        <h4>
-            Current Filter: @ViewBag.CurrentFilter
+    <p class="table-header">
+        <h4 class="table-header">
+            Current Filter:
+            @if (!string.IsNullOrEmpty(Model.CurrentFilter))
+            {
+                @Html.Label(Model.CurrentFilter, new { @class = "detail-label" })
+            }
         </h4>
-        <h4>
+        <h4 class="table-header">
             Dates:
-            @Html.Label(Model.StartDate.Value.Date.ToShortDateString())
+            @Html.Label(Model.StartDate.Value.Date.ToShortDateString(), new { @class = "detail-label" })
             to
-            @Html.Label(Model.EndDate.Value.Date.ToShortDateString())
+            @Html.Label(Model.EndDate.Value.Date.ToShortDateString(), new { @class = "detail-label" })
         </h4>
     </p>
 </div>
@@ -52,10 +56,9 @@
                 new
                 {
                     Model.Username,
-                    //Model.CurrentFilter,
-                    Model.SearchString,
-                    Model.SortOrder,
-                    //Model.DateSort,
+                    Model.CurrentFilter,
+                    SortOrder = Model.DateSort,
+                    Model.DateSort,
                     Model.StartDate,
                     Model.EndDate,
                     Model.Page
@@ -86,10 +89,9 @@
     new
     {
         Model.Username,
-        //Model.CurrentFilter,
-        Model.SearchString,
+        Model.CurrentFilter,
         Model.SortOrder,
-        //Model.DateSort,
+        Model.DateSort,
         Model.StartDate,
         Model.EndDate,
         page

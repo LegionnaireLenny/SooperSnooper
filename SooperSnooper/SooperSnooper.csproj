@@ -264,6 +264,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Fonts\ScifiAdventure.otf" />
+    <Content Include="Content\Fonts\techno_hideo.ttf" />
+    <Content Include="Content\Fonts\techno_hideo_bold.ttf" />
+    <Content Include="Content\Fonts\Square.ttf" />
+    <Content Include="Content\Fonts\Squareo.ttf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

@@ -1,6 +1,34 @@
-﻿body {
+﻿@font-face {
+    font-family: 'ScifiAdventure';
+    src: url('Fonts/ScifiAdventure.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'techno_hideo';
+    src: url('Fonts/techno_hideo.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'techno_hideo_bold';
+    src: url('Fonts/techno_hideo_bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Square';
+    src: url('Fonts/Square.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Squareo';
+    src: url('Fonts/Squareo.ttf') format('truetype');
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+    color: #00CC00;
+    background-color: #222;
+    font-family: Square;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -25,8 +53,110 @@ textarea {
 
 .jumbotron {
     text-align: center;
+    background-color: #313131;
 }
+
+a {
+    color: #FFB000;
+    text-decoration: none;
+}
+
+    a:hover, a:focus {
+        color: #ba8000;
+        text-decoration: underline;
+    }
+
+    a:active, a:hover {
+        outline: 0;
+    }
+
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: ScifiAdventure;
+}
+
+hr {
+    border-top: 1px solid #00CC00;
+}
+
+.btn-default {
+    color: #00CC00;
+    background-color: #444;
+    border-color: #00CC00;
+}
+
+    .btn-default:hover {
+        color: #444;
+        background-color: #00CC00;
+        border-color: #444;
+    }
+
+.pagination > li > a, .pagination > li > span {
+    color: #00CC00 !important;
+    background-color: #444 !important;
+    border-color: #00CC00 !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    color: #444 !important;
+    background-color: #00CC00 !important;
+    border-color: #55BB55 !important;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #00CC00 !important;
+    background-color: #447744 !important;
+    border-color: #00CC00 !important;
+}
+
+.form-control {
+    color: #00BB00;
+    background-color: #444;
+    border: 1px solid #009900;
+}
+
+    .form-control:focus {
+        border-color: #00FF00;
+    }
 
 .snoop-box {
     display: unset;
+}
+
+.navbar-inverse {
+    background-color: #313131;
+}
+
+    .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+        color: #00CC00;
+        font-family: Square;
+    }
+
+.detail-label {
+    color: #FFB000 !important;
+}
+
+.table-header {
+    font-family: Square;
+}
+
+/* Change the white to any color ;) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #656565 inset !important;
+    -webkit-text-fill-color: #00FF00 !important;
+}
+
+.text-danger {
+    color: #FFB000;
 }
