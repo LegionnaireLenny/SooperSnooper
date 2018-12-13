@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using SooperSnooper.Models.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace SooperSnooper.Models.Twitter
@@ -17,12 +18,12 @@ namespace SooperSnooper.Models.Twitter
             {
                 if (timestamp.Contains("m"))
                 {
-                    int minutes = int.Parse(timestamp.Replace("m", ""));
+                    int minutes = int.Parse(timestamp.Replace("m", ""), CultureInfo.InvariantCulture);
                     convertedStamp = convertedStamp.AddMinutes(-minutes);
                 }
                 else if (timestamp.Contains("h"))
                 {
-                    int hours = int.Parse(timestamp.Replace("h", ""));
+                    int hours = int.Parse(timestamp.Replace("h", ""), CultureInfo.InvariantCulture);
                     convertedStamp = convertedStamp.AddHours(-hours);
                 }
                 else
@@ -32,7 +33,7 @@ namespace SooperSnooper.Models.Twitter
             }
             else
             {
-                if (!DateTime.TryParse(timestamp, out convertedStamp))
+                if (!DateTime.TryParse(timestamp, CultureInfo.InvariantCulture, DateTimeStyles.None, out convertedStamp))
                 {
                     throw new FormatException($"{timestamp} has unexpected format");
                 }
